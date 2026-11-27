@@ -41,14 +41,17 @@ jobs:
           KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
         run: |
           if [ -z "$KEYSTORE_B64" ]; then echo "::error::Нет секрета KEYSTORE_B64 — добавьте его в Settings → Secrets and variables → Actions"; exit 1; fi
-          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          printf %s "$KEYSTORE_B64" | tr -d ' \r\n\t' | base64 -d > "$RUNNER_TEMP/release.keystore"
           echo "KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> $GITHUB_ENV
 
       - name: Сборка
         working-directory: android
         env:
-          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-        run: gradle --no-daemon assembleRelease
+          RAW_PASS: ${{ secrets.KEYSTORE_PASS }}
+        run: |
+          # пароль без случайных пробелов и переводов строки при вставке
+          export KEYSTORE_PASS="$(printf %s "$RAW_PASS" | tr -d ' \r\n\t')"
+          gradle --no-daemon assembleRelease
 
       - name: Выпуск
         env:
