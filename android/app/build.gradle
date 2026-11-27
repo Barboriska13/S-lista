@@ -1,0 +1,40 @@
+plugins { id 'com.android.application' }
+
+// Версия берётся из игры (const VERSION = 'v0.9.1'), номер сборки — из GitHub Actions.
+def gameHtml = file('src/main/assets/index.html')
+def ver = '0.0'
+if (gameHtml.exists()) {
+    def m = (gameHtml.text =~ /const VERSION = 'v([0-9.]+)'/)
+    if (m.find()) ver = m.group(1)
+}
+def code = (System.getenv('GITHUB_RUN_NUMBER') ?: '1') as int
+
+android {
+    namespace 'ru.slista.app'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'ru.slista.app'
+        minSdk 23          // android.media.midi есть с Android 6.0
+        targetSdk 35
+        versionCode code
+        versionName ver
+    }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('KEYSTORE_PATH') ?: 'release.keystore')
+            storePassword System.getenv('KEYSTORE_PASS') ?: ''
+            keyAlias 'slista'
+            keyPassword System.getenv('KEYSTORE_PASS') ?: ''
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

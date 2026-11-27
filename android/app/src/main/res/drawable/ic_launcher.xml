@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Иконка: тёмный круг, нотный стан и нота -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#17130F" android:pathData="M54,4a50,50 0,1 1,0 100a50,50 0,1 1,0 -100z" />
+    <path android:strokeColor="#5A5368" android:strokeWidth="2"
+        android:pathData="M20,38H88M20,48H88M20,58H88M20,68H88M20,78H88" />
+    <path android:fillColor="#E3B85A"
+        android:pathData="M50,73a10,7.5 -20,1 1,0.01 0z" />
+    <path android:fillColor="#E3B85A" android:pathData="M58.5,70V26h4v44z" />
+    <path android:fillColor="#E3B85A" android:pathData="M62.5,26c6,4 14,8 12,20c-2,-7 -6,-9 -12,-10z" />
+</vector>
