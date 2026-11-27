@@ -3,6 +3,7 @@ name: APK
 on:
   push:
     branches: [main]
+    paths: ['index.html', 'android/**']
   workflow_dispatch:
 
 permissions:
