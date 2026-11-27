@@ -30,6 +30,10 @@ jobs:
           VER=$(grep -oP "const VERSION = 'v\K[0-9.]+" index.html)
           echo "VER=$VER" >> $GITHUB_ENV
 
+      - name: Проверка сборки
+        working-directory: android
+        run: gradle --no-daemon assembleDebug
+
       # Ключ подписи хранится в секретах репозитория (KEYSTORE_B64, KEYSTORE_PASS).
       # Один и тот же ключ нужен, чтобы новые версии ставились поверх старых без потери прогресса.
       - name: Ключ подписи
